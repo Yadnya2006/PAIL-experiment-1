@@ -1,0 +1,68 @@
+section .data
+msg db 'Enter the number1 :',10
+msglen: equ $-msg
+
+msg1 db 'Enter the number2 :',10
+msglen1: equ $-msg1
+
+hello db 'Multiplication of the given numbers is: ',10
+helloLen: equ $-hello
+
+section .bss
+num1 resb 2
+num2 resb 2
+prod resb 2
+
+section .text
+global _start
+
+_start:
+
+mov eax,4
+mov ebx,1
+mov ecx,msg
+mov edx,msglen
+int 80h
+
+mov eax,3
+mov ebx,0
+mov ecx,num1
+mov edx,2
+int 80h
+
+mov eax,4
+mov ebx,1
+mov ecx,msg1
+mov edx,msglen1
+int 80h
+
+mov eax,3
+mov ebx,0
+mov ecx,num2
+mov edx,2
+int 80h
+
+mov al, [num1]
+sub al, '0'
+
+mov bl, [num2]
+sub bl, '0'
+
+mul bl              ; AX = AL * BL
+add al, '0'         ; convert to ASCII (works only for 0–9 result)
+mov [prod], al
+
+mov eax,4
+mov ebx,1
+mov ecx,hello
+mov edx,helloLen
+int 80h
+
+mov eax,4
+mov ebx,1
+mov ecx,prod
+mov edx,1
+int 80h
+
+mov eax,1
+int 80h
