@@ -1,0 +1,69 @@
+section .data
+
+msg db 'Enter the number1 :',10
+msglen: equ $-msg
+
+msg1 db 'Enter the number2 :',10
+msglen1: equ $-msg1
+
+hello db 'Addition of the given numbers is: ',10
+helloLen: equ $-hello
+
+section .bss
+num1 resb 2
+num2 resb 2
+sum resb 2
+
+section .text
+global _start
+
+_start:
+
+
+mov eax,4
+mov ebx,1
+mov ecx,msg
+mov edx,msglen
+int 80h
+                        ;Accept Number1
+mov eax,3
+mov ebx,0
+mov ecx,num1
+mov edx,2
+int 80h
+
+mov eax,4
+mov ebx,1
+mov ecx,msg1
+mov edx,msglen1
+int 80h
+
+mov eax,3               ; Accept Number2
+mov ebx,0
+mov ecx,num2
+mov edx,2
+int 80h
+mov eax,[num1]   
+sub eax,'0'  
+
+mov ebx,[num2]
+sub ebx,'0'
+
+add eax,ebx           ;  eax=eax+ebx
+add eax,'0'              ;number in to ascii
+mov [sum],eax
+
+mov eax,4
+mov ebx,1
+mov ecx,hello
+mov edx,helloLen
+int 80h
+
+mov eax,4
+mov ebx,1
+mov ecx,sum
+mov edx,1
+int 80h
+
+mov eax, 1
+int 80h
